@@ -34,6 +34,8 @@
 
 		created() {
 			this.clientesInDatabase = JSON.parse(this.data)
+            $('.item-navbar').removeClass('active')
+            $("#clientes").addClass('active')
         },
 
 		methods: {
@@ -55,10 +57,6 @@
                             $("#changeIcon").addClass('fa-plus')
                         }
                 }
-            },
-
-            alert() {
-                $.sweetModal('This is an alert.');
             },
 
             buscarCep() {
@@ -211,7 +209,6 @@
     				</tr>
     			</tbody>
     		</table>
-            <button type="button" @click="alert">Alert!</button>
     	</div>
 
 

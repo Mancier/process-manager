@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 46);
+/******/ 	return __webpack_require__(__webpack_require__.s = 45);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 2:
+/***/ 1:
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -163,18 +163,18 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 46:
+/***/ 45:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(47);
+module.exports = __webpack_require__(46);
 
 
 /***/ }),
 
-/***/ 47:
+/***/ 46:
 /***/ (function(module, exports, __webpack_require__) {
 
-Vue.component('processoList', __webpack_require__(48));
+Vue.component('processoList', __webpack_require__(47));
 
 $(document).ready(function () {
 	new Vue({
@@ -184,15 +184,15 @@ $(document).ready(function () {
 
 /***/ }),
 
-/***/ 48:
+/***/ 47:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(2)(
+var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(49),
+  __webpack_require__(48),
   /* template */
-  __webpack_require__(50),
+  __webpack_require__(49),
   /* styles */
   null,
   /* scopeId */
@@ -225,7 +225,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 49:
+/***/ 48:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -236,17 +236,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            numero_processo: '',
-            nome_processo: '',
-            autor: '',
-            reu: '',
-            cliente: '',
-            cliente_fk: '',
-            comarca: '',
-            unidade: '',
-            observacao: '',
-            competencia_fk: '',
-            valor_causa: '',
+            newProcess: {
+                numero_processo: '',
+                nome_processo: '',
+                autor: '',
+                reu: '',
+                cliente: '',
+                cliente_fk: '',
+                comarca: '',
+                unidade: '',
+                observacao: '',
+                competencia_fk: '',
+                valor_causa: ''
+            },
+
             processosInDatabase: [],
             competenciasInDatabase: [],
             whoIsCliente: [],
@@ -257,6 +260,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         this.processosInDatabase = JSON.parse(this.data);
         this.getCompetencias();
+        $('.item-navbar').removeClass('active');
+        $("#processos").prop('class', 'active');
     },
 
 
@@ -288,17 +293,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addProcesso: function addProcesso() {
             var back = this;
             var newProcesso = {
-                'nome_processo': this.nome_processo,
-                'numero_processo': this.numero_processo,
-                'autor': this.autor,
-                'reu': this.reu,
-                'cliente': this.cliente,
-                'cliente_fk': this.cliente_fk,
-                'comarca': this.comarca,
-                'unidade': this.unidade,
-                'observacao': this.observacao,
-                'competencia_fk': this.competencia_fk,
-                'valor_causa': this.valor_causa
+                'nome_processo': this.newProcess.nome_processo,
+                'numero_processo': this.newProcess.numero_processo,
+                'autor': this.newProcess.autor,
+                'reu': this.newProcess.reu,
+                'cliente': this.newProcess.cliente,
+                'cliente_fk': this.newProcess.cliente_fk,
+                'comarca': this.newProcess.comarca,
+                'unidade': this.newProcess.unidade,
+                'observacao': this.newProcess.observacao,
+                'competencia_fk': this.newProcess.competencia_fk,
+                'valor_causa': this.newProcess.valor_causa
             };
             window.console.log(newProcesso);
             axios({
@@ -350,7 +355,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         desabilitandoCampos: function desabilitandoCampos() {
             var back = this;
-            switch (this.cliente) {
+            switch (this.newProcess.cliente) {
                 case "Autor":
                     $("#autorButton").removeClass('disabled');
                     break;
@@ -372,16 +377,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             window.console.log('ID: ' + valueId + '\nNome: ' + nome);
 
             //Definindo o ID do nosso cliente
-            this.cliente_fk = valueId;
+            this.newProcess.cliente_fk = valueId;
 
             //Setando o valor nos campos como se devem
-            if (this.cliente === "Autor") {
-                back.autor = nome;
+            if (this.newProcess.cliente === "Autor") {
+                back.newProcess.autor = nome;
                 $("#autor").prop('readonly', true);
                 $('#clienteModal').modal('hide');
                 window.console.log(nome);
             } else {
-                back.reu = nome;
+                back.newProcess.reu = nome;
                 $("#reu").prop('readonly', true);
                 $('#clienteModal').modal('hide');
                 window.console.log(nome);
@@ -392,7 +397,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 50:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -438,8 +443,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.numero_processo),
-      expression: "numero_processo"
+      value: (_vm.newProcess.numero_processo),
+      expression: "newProcess.numero_processo"
     }],
     staticClass: "form-control",
     attrs: {
@@ -449,12 +454,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "required": "true"
     },
     domProps: {
-      "value": (_vm.numero_processo)
+      "value": (_vm.newProcess.numero_processo)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.numero_processo = $event.target.value
+        _vm.newProcess.numero_processo = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -463,8 +468,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.nome_processo),
-      expression: "nome_processo"
+      value: (_vm.newProcess.nome_processo),
+      expression: "newProcess.nome_processo"
     }],
     staticClass: "form-control",
     attrs: {
@@ -474,12 +479,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "required": "true"
     },
     domProps: {
-      "value": (_vm.nome_processo)
+      "value": (_vm.newProcess.nome_processo)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.nome_processo = $event.target.value
+        _vm.newProcess.nome_processo = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('div', {
@@ -490,8 +495,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.cliente),
-      expression: "cliente"
+      value: (_vm.newProcess.cliente),
+      expression: "newProcess.cliente"
     }],
     staticClass: "form-control",
     attrs: {
@@ -505,7 +510,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.cliente = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.newProcess.cliente = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }, _vm.desabilitandoCampos]
     }
   }, [_c('option', {
@@ -522,8 +527,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.competencia_fk),
-      expression: "competencia_fk"
+      value: (_vm.newProcess.competencia_fk),
+      expression: "newProcess.competencia_fk"
     }],
     staticClass: "form-control",
     attrs: {
@@ -538,7 +543,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.competencia_fk = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.newProcess.competencia_fk = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, _vm._l((_vm.competenciasInDatabase), function(competenciaSelect) {
@@ -557,8 +562,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.valor_causa),
-      expression: "valor_causa"
+      value: (_vm.newProcess.valor_causa),
+      expression: "newProcess.valor_causa"
     }],
     staticClass: "form-control",
     attrs: {
@@ -568,12 +573,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "required": "true"
     },
     domProps: {
-      "value": (_vm.valor_causa)
+      "value": (_vm.newProcess.valor_causa)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.valor_causa = $event.target.value
+        _vm.newProcess.valor_causa = $event.target.value
       }
     }
   })])])]), _vm._v(" "), _c('div', {
@@ -584,8 +589,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.autor),
-      expression: "autor"
+      value: (_vm.newProcess.autor),
+      expression: "newProcess.autor"
     }],
     staticClass: "form-control",
     attrs: {
@@ -595,12 +600,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "required": "true"
     },
     domProps: {
-      "value": (_vm.autor)
+      "value": (_vm.newProcess.autor)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.autor = $event.target.value
+        _vm.newProcess.autor = $event.target.value
       }
     }
   }), _vm._v(" "), _c('span', {
@@ -625,8 +630,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.reu),
-      expression: "reu"
+      value: (_vm.newProcess.reu),
+      expression: "newProcess.reu"
     }],
     staticClass: "form-control",
     attrs: {
@@ -636,12 +641,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "required": "true"
     },
     domProps: {
-      "value": (_vm.reu)
+      "value": (_vm.newProcess.reu)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.reu = $event.target.value
+        _vm.newProcess.reu = $event.target.value
       }
     }
   }), _vm._v(" "), _c('span', {
@@ -666,8 +671,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.comarca),
-      expression: "comarca"
+      value: (_vm.newProcess.comarca),
+      expression: "newProcess.comarca"
     }],
     staticClass: "form-control",
     attrs: {
@@ -676,12 +681,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "comarca"
     },
     domProps: {
-      "value": (_vm.comarca)
+      "value": (_vm.newProcess.comarca)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.comarca = $event.target.value
+        _vm.newProcess.comarca = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -690,8 +695,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.unidade),
-      expression: "unidade"
+      value: (_vm.newProcess.unidade),
+      expression: "newProcess.unidade"
     }],
     staticClass: "form-control",
     attrs: {
@@ -700,12 +705,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "unidade"
     },
     domProps: {
-      "value": (_vm.unidade)
+      "value": (_vm.newProcess.unidade)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.unidade = $event.target.value
+        _vm.newProcess.unidade = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('div', {
@@ -718,8 +723,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.observacao),
-      expression: "observacao"
+      value: (_vm.newProcess.observacao),
+      expression: "newProcess.observacao"
     }],
     staticClass: "form-control",
     attrs: {
@@ -728,12 +733,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "rows": "5"
     },
     domProps: {
-      "value": (_vm.observacao)
+      "value": (_vm.newProcess.observacao)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.observacao = $event.target.value
+        _vm.newProcess.observacao = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('button', {
@@ -884,17 +889,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "modal-footer"
   }, [_c('button', {
-    staticClass: "btn btn-secondary",
-    attrs: {
-      "type": "button"
-    }
-  }, [_vm._v("Close")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-primary",
+    staticClass: "btn btn-default",
     attrs: {
       "type": "button",
       "data-dismiss": "modal"
     }
-  }, [_vm._v("Carregar")])])
+  }, [_vm._v("Close")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

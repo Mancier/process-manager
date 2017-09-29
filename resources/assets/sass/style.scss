@@ -12,13 +12,7 @@
 		font-weight: bold;
 		transition: all 0.35s ease-out;
 	}
-
-	&:active{
-		background-color: black !important;
-		color: white !important;
-		font-weight: bold;
-	}
-};
+}
 
 .buttonFloating{
 	@include isCircle(40px);
@@ -47,13 +41,36 @@
 	margin-bottom: 5%;
 }
 
-.optionFloating{
-	@include dropup();
+.dropzoneInformation{
+	position: relative;
+	top: 180px;
+	font-size: 60px;
+	text-align: center;
+	text-transform: uppercase;
 }
 
-.dropdown-option{
-	position: absolute;
-	float: right;
-	z-index: 1000;
+.dropzone{
+	width: 100%;
+	min-height: 450px;
+	border: 1px solid #292F36;
+	background-color: #ECEBE4;
+	position: relative;
+    cursor: pointer;
+    margin-bottom: 5px; 
 
+	&:hover{
+		background-color: #DADDD8;
+	}
+}
+
+#progress{
+	position: relative;
+}
+
+.input-file{
+	opacity: 0; /* invisible but it's there! */
+    width: 100%;
+    min-height: 450px;
+    position: absolute;
+    cursor: pointer;
 }

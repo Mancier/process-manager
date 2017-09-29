@@ -16,12 +16,13 @@
 
 	<!-- CSS -->
 	@section('script')
-	<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/all.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/style.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
 
 	<!-- JavaScript -->
 	<script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('js/sweet-modal.js') }}" type="text/javascript"></script>
+
 	@show
 
 	<!-- End => Head -->
@@ -45,11 +46,11 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav navbar-toggler-left">
-						<li><a href="{{ route('home') }}" class="item-navbar">Home</a></li>
-						<li><a href="{{ route('processo') }}" class="item-navbar">Processos</a></li>
-						<li><a href="{{ route('movimentacao') }}" class="item-navbar">Movimentação</a></li>
-						<li><a href="{{ route ('pastas') }}" class="item-navbar">Pastas</a></li>
-						<li><a href="{{ route('clientes') }}" class="item-navbar">Clientes</a></li>
+						<li id="home"><a href="{{ route('home') }}" class="item-navbar">Home</a></li>
+						<li id="processos"><a href="{{ route('processo') }}" class="item-navbar">Processos</a></li>
+						<li id="movimentacao"><a href="{{ route('movimentacao') }}" class="item-navbar">Movimentação</a></li>
+						<li id="pastas"><a href="{{ route ('pastas') }}" class="item-navbar">Pastas</a></li>
+						<li id="clientes"><a href="{{ route('clientes') }}" class="item-navbar">Clientes</a></li>
 
 					</ul>
 					<ul class="nav navbar-nav navbar-right">

@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 41);
+/******/ 	return __webpack_require__(__webpack_require__.s = 40);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 2:
+/***/ 1:
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -163,19 +163,19 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 41:
+/***/ 40:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(42);
+module.exports = __webpack_require__(41);
 
 
 /***/ }),
 
-/***/ 42:
+/***/ 41:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*Components*/
-Vue.component('newCliente', __webpack_require__(43));
+Vue.component('newCliente', __webpack_require__(42));
 // Vue.component('listCliente', require('./components/clientes/listCliente.vue'));
 
 /*Vue Instance*/
@@ -187,15 +187,15 @@ $(function () {
 
 /***/ }),
 
-/***/ 43:
+/***/ 42:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(2)(
+var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(44),
+  __webpack_require__(43),
   /* template */
-  __webpack_require__(45),
+  __webpack_require__(44),
   /* styles */
   null,
   /* scopeId */
@@ -228,7 +228,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 44:
+/***/ 43:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -268,6 +268,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     created: function created() {
         this.clientesInDatabase = JSON.parse(this.data);
+        $('.item-navbar').removeClass('active');
+        $("#clientes").addClass('active');
     },
 
 
@@ -285,9 +287,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     $("#changeIcon").addClass('fa-plus');
                 }
             }
-        },
-        alert: function alert() {
-            $.sweetModal('This is an alert.');
         },
         buscarCep: function buscarCep() {
             var self = this;
@@ -403,7 +402,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 45:
+/***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -471,14 +470,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })])])
-  }))]), _vm._v(" "), _c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.alert
-    }
-  }, [_vm._v("Alert!")])]) : _c('div', {
+  }))])]) : _c('div', {
     staticClass: "container-half"
   }, [_c('center', [_c('button', {
     staticClass: "btn btn-default",

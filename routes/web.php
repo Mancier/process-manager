@@ -8,6 +8,7 @@
 			1.3.1 - Find to Update => É a função que irá buscar o dado no Banco e retornar com um JSON contendo os dados
 			1.3.2 - Update => É o próprio update, ele segue a mesma regra do CREATE(1.1)
 		1.4 - Delete => A função mais complicada, o DELETE vai remover do BD aquela informação apenas, todos os dados relacionados continuam
+		1.5 - Upload => Função que envia os dados para a realização dos uploads dos arquivos recebidos no dropzone
 */
 
 Route::get('/', function () {
@@ -27,6 +28,7 @@ Route::get('/movimentacao',' MovimentacaoController@read')->name('movimentacao')
 
 // Route -> Pastas
 Route::get('/pastas', 'PastasController@read')->name('pastas');
+Route::post('/pastas/upload', 'PastasController@upload')->name('upload');
 
 //Route -> Cliente
 Route::match(['get', 'post'], '/clientes', 'ClientesController@read')->name('clientes');

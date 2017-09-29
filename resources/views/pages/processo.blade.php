@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-	<processo-list data={{ $processos }}></processo-list>
+	<processo-list data="{{ $processos }}"></processo-list>
 </div>
 
 @endsection

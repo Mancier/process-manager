@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Processos;
 use App\Competencias;
 
@@ -13,15 +14,5 @@ class ProcessoController extends Controller
     	$competencias = Competencias::all();
 
     	return view('pages.processo', ['processos' => $processos, 'competencias' => $competencias]);
-    }
-
-    public function create(Request $request){
-    	$addProcesso = $request->all();
-
-    	$log = Processos::create($addProcesso);
-
-    	dd($log);
-
-    	return response()->json(['Status' => 200]);
     }
 }

@@ -3,7 +3,10 @@
     "/css/app.css": "/css/app.css",
     "/css/font-awesome.css": "/css/font-awesome.css",
     "/css/style.css": "/css/style.css",
+    "/js/pastas.js": "/js/pastas.js",
     "/js/processos.js": "/js/processos.js",
     "/js/cliente.js": "/js/cliente.js",
-    "/css/sweet-modal.css": "/css/sweet-modal.css"
+    "/css/all.css": "/css/all.css",
+    "/js/sweet-modal.js": "/js/sweet-modal.js",
+    "/js/upload.js": "/js/upload.js"
 }

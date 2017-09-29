@@ -4,17 +4,20 @@
 
 		data: function() {
 			return {
-				numero_processo:'',
-				nome_processo:'',
-				autor:'',
-				reu:'',
-				cliente:'',
-				cliente_fk:'',
-				comarca:'',
-				unidade:'',
-				observacao:'',
-				competencia_fk:'',
-				valor_causa:'',
+				newProcess:{
+					numero_processo:'',
+					nome_processo:'',
+					autor:'',
+					reu:'',
+					cliente:'',
+					cliente_fk:'',
+					comarca:'',
+					unidade:'',
+					observacao:'',
+					competencia_fk:'',
+					valor_causa:''
+				},
+
 				processosInDatabase: [],
 				competenciasInDatabase: [],
 				whoIsCliente: [],
@@ -25,6 +28,8 @@
 		created(){
 			this.processosInDatabase = JSON.parse(this.data)
 			this.getCompetencias()
+			$('.item-navbar').removeClass('active')
+			$("#processos").prop('class', 'active')
 		},
 
 		methods:{
@@ -59,17 +64,17 @@
             addProcesso(){
             	var back = this
             	var newProcesso = {
-            		'nome_processo':this.nome_processo,
-            		'numero_processo':this.numero_processo,
-					'autor':this.autor,
-					'reu':this.reu,
-					'cliente':this.cliente,
-					'cliente_fk':this.cliente_fk,
-					'comarca':this.comarca,
-					'unidade':this.unidade,
-					'observacao':this.observacao,
-					'competencia_fk':this.competencia_fk,
-					'valor_causa':this.valor_causa
+            		'nome_processo':this.newProcess.nome_processo,
+            		'numero_processo':this.newProcess.numero_processo,
+					'autor':this.newProcess.autor,
+					'reu':this.newProcess.reu,
+					'cliente':this.newProcess.cliente,
+					'cliente_fk':this.newProcess.cliente_fk,
+					'comarca':this.newProcess.comarca,
+					'unidade':this.newProcess.unidade,
+					'observacao':this.newProcess.observacao,
+					'competencia_fk':this.newProcess.competencia_fk,
+					'valor_causa':this.newProcess.valor_causa
             	}
             	window.console.log(newProcesso)
             	axios({
@@ -128,7 +133,7 @@
 
             desabilitandoCampos: function(){
             	var back = this
-            	switch (this.cliente) {
+            	switch (this.newProcess.cliente) {
             		case "Autor":
             			$("#autorButton").removeClass('disabled')
             			break
@@ -150,17 +155,17 @@
             	window.console.log('ID: '+valueId+'\nNome: '+nome)
 
             	//Definindo o ID do nosso cliente
-            	this.cliente_fk = valueId
+            	this.newProcess.cliente_fk = valueId
 
             	//Setando o valor nos campos como se devem
-            	if (this.cliente === "Autor") {
-            		back.autor = nome
+            	if (this.newProcess.cliente === "Autor") {
+            		back.newProcess.autor = nome
             		$("#autor").prop('readonly', true)
             		$('#clienteModal').modal('hide')
             		window.console.log(nome)
             	}
             	else {
-            		back.reu = nome
+            		back.newProcess.reu = nome
             		$("#reu").prop('readonly', true)
             		$('#clienteModal').modal('hide')
             		window.console.log(nome)
@@ -208,19 +213,19 @@
 			<div class="row">
 				<div class="form-group col-md-6">
 					<label for="numero_processo">Número do processo<span class="text-danger">*</span></label>
-					<input type="text" name="numero_processo" id="numero_processo" required="true" class="form-control" v-model="numero_processo">
+					<input type="text" name="numero_processo" id="numero_processo" required="true" class="form-control" v-model="newProcess.numero_processo">
 				</div>
 
 				<div class="form-group col-md-6">
 					<label for="nome_processo">Nome Ação<span class="text-danger">*</span></label>
-					<input type="text" id="nome_processo" name="nome_processo" class="form-control" required="true" v-model="nome_processo">
+					<input type="text" id="nome_processo" name="nome_processo" class="form-control" required="true" v-model="newProcess.nome_processo">
 				</div>
 			</div> <!-- row->end -->
 
 			<div class="row">
 				<div class="col-md-3 form-group">
 					<label for="cliente">Cliente<span class="text-danger">*</span></label>
-					<select name="cliente" class="form-control" @change="desabilitandoCampos" v-model="cliente">
+					<select name="cliente" class="form-control" @change="desabilitandoCampos" v-model="newProcess.cliente">
 						<option value="Autor">Autor</option>
 						<option value="Réu">Réu</option>
 					</select>
@@ -228,7 +233,7 @@
 
 				<div class="col-md-5 form-group">
 					<label for="competencia">Competencia<span class="text-danger">*</span></label>
-						<select name="competencia" id="competencia" class="form-control" v-model="competencia_fk">
+						<select name="competencia" id="competencia" class="form-control" v-model="newProcess.competencia_fk">
 						<option v-for="competenciaSelect in competenciasInDatabase" :value="competenciaSelect.id_competencia">{{ competenciaSelect.nome_opcao }}</option>
 					</select>
 				</div>
@@ -237,7 +242,7 @@
 					<label for="valor_causa">Valor da Causa<span class="text-danger">*</span></label>
 					<div class="input-group">
                     	<span class="input-group-addon">R$</span>
-                    	<input type="text" name="valor_causa" id="valor_causa" class="form-control" required="true" v-model="valor_causa">
+                    	<input type="text" name="valor_causa" id="valor_causa" class="form-control" required="true" v-model="newProcess.valor_causa">
                 	</div>
 				</div>
 			</div>
@@ -245,7 +250,7 @@
 			<div class="form-group">
 				<label for="autor">Autor<span class="text-danger">*</span></label>
 				<div class="input-group">
-					<input type="text" name="autor" id="autor" required="true" class="form-control" v-model="autor">
+					<input type="text" name="autor" id="autor" required="true" class="form-control" v-model="newProcess.autor">
 					<span class="input-group-btn">
 						<a href="#clienteModal" @click="findCliente" id="autorButton" class="btn btn-default disabled" data-toggle="modal"><i class="fa fa-search"></i></a>
 					</span>
@@ -255,7 +260,7 @@
 			<div class="form-group">
 				<label for="reu">Réu<span class="text-danger">*</span></label>
 				<div class="input-group">
-					<input type="text" name="reu" id="reu" class="form-control" required="true" v-model="reu">
+					<input type="text" name="reu" id="reu" class="form-control" required="true" v-model="newProcess.reu">
 					<span class="input-group-btn">
 						<a href="#clienteModal" @click="findCliente" id="reuButton" class="btn btn-default disabled" data-toggle="modal"><i class="fa fa-search"></i></a>
 					</span>
@@ -266,17 +271,17 @@
 			<div class="row">
 				<div class="form-group col-md-5">
 					<label for="comarca">Comarca<span class="text-danger">*</span></label>
-					<input type="text" name="comarca" id="comarca" class="form-control" v-model="comarca">
+					<input type="text" name="comarca" id="comarca" class="form-control" v-model="newProcess.comarca">
 				</div>
 				<div class="form-group col-md-7">
 					<label for="unidade">Unidade<span class="text-danger">*</span></label>
-					<input type="text" name="unidade" id="unidade" class="form-control" v-model="unidade">
+					<input type="text" name="unidade" id="unidade" class="form-control" v-model="newProcess.unidade">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="observavao">Observção</label>
-				<textarea name="observacao" id="observacao" class="form-control" rows="5" v-model="observacao"></textarea>
+				<textarea name="observacao" id="observacao" class="form-control" rows="5" v-model="newProcess.observacao"></textarea>
 			</div>
 
 			<button type="button" class="btn btn-success" @click="addProcesso" style="float: right">Salvar <i class="fa fa-plus"></i></button>
@@ -316,8 +321,7 @@
 							</table>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary">Close</button>
-							<button type="button" class="btn btn-primary" data-dismiss="modal">Carregar</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 						</div>
 					</div><!-- /.modal-content -->
 				</div><!-- /.modal-dialog -->
