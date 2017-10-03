@@ -10,12 +10,23 @@ export default{
 
 	data(){
 		return{
+			clientePack: [],
+			processoPack: [],
+			filesPack: [],
 			clientesInDatabase: [],
+			tokenData: null,
 			isListVisible: true
 		}
 	},
 	created(){
 		this.clientesInDatabase = JSON.parse(this.data)
+		this.tokenData = this.token
+	},
+
+	computed:{
+		optionsForProcessos: function(){
+			return "<option v-for='processo in processoPack' :value='processo.id_processo'>{{ processo.nome_processo }} - processo.numero_processo</option>"
+		}
 	},
 
 	methods: {
@@ -38,6 +49,27 @@ export default{
                     }
             }
         }, // End => toggleVisible()
+
+        findProcesso: function(){
+        	var vm = this 
+        	var clienteSelected = $("#clienteSelecionado")
+        	axios.get('/processo/search?'+clienteSelected.val())
+        	.then(response => {
+        		vm.processoPack = response.data
+        	})
+        }, //End => findProcesso()
+
+        findFiles: function(){
+        	var vm = this
+        	var processoSelected = $("#processosRelacionados")
+
+        	this.filesPack = [processoSelected.val()]
+
+        	axios.get("/pastas/search?"+processoSelected.val())
+        	.then(response => {
+        		console.log(response)
+        	})
+        }
     }
 }
 </script>
@@ -50,8 +82,7 @@ export default{
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
-					<select class="form-control" name="clientes">
-						<option></option>
+					<select class="form-control" name="clientes" id="clienteSelecionado" @blur="findProcesso">
 						<option v-for="cliente in clientesInDatabase" :value="cliente.id_cliente">{{ cliente.nome }}</option>
 					</select>
 				</div>
@@ -59,18 +90,33 @@ export default{
 
 			<div class="col-md-6">
 				<div class="form-group">
-					<select class="form-control" name="processos" id="processosRelacionados">
-						<option value=""></option>
+					<select class="form-control" name="processos" id="processosRelacionados" @blur="findFiles">
+						<option v-for="processo in processoPack" :value='processo.id_processo'>{{ processo.nome_processo }} - {{processo.numero_processo }}</option>
 					</select>
 				</div>
 			</div>
 		</div> <!-- End => .row -->
 
 		<div v-if="isListVisible">
-			
+			<table class="table table-active table-striped table-hover">
+				<thead>
+					<tr>
+						<th colspan="15">NOME</th>
+						<th colspan="3">TIPO</th>
+						<th colspan="5">UPLOAD</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						
+					</tr>
+				</tbody>
+			</table>
 		</div>
-
-		<file-dropzone v-else></file-dropzone>
-
+		
+		<div v-else>
+			<file-dropzone></file-dropzone> 
+		</div>
 	</div>
 </template>

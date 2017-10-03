@@ -18,13 +18,18 @@ class PastasController extends Controller
     	return view('pages.pastas', ['clientes' => $clientes]);
     }
 
-    public function upload(Request $recived){
-    //	   $files = \Request::file('files');
-    //     $directorieCliente = ;
-    //     $directories = Storage::directories();
+    public function searchInDatabase($id)
+    {
+        $x = DB::table('arquivos')
+            ->select('nome')
+            ->where('processo_fk', $id)
+            ->get();
 
-    //     if($directories === $directoriesCliente){
+        return response()
+            ->json($x);
+    }
 
-    //     }
+    public function upload(Request $request){
+        $files = $request->file('arquivos');
     }
 }

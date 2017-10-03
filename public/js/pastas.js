@@ -188,19 +188,25 @@ $(function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(53),
-  /* template */
-  __webpack_require__(57),
-  /* styles */
-  null,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(53)
+/* template */
+var __vue_template__ = __webpack_require__(57)
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
 )
-Component.options.__file = "D:\\Sistemas\\newMaker\\resources\\assets\\js\\components\\pastas\\pastas.vue"
+Component.options.__file = "resources\\assets\\js\\components\\pastas\\pastas.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] pastas.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -244,14 +250,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   data: function data() {
     return {
+      clientePack: [],
+      processoPack: [],
+      filesPack: [],
       clientesInDatabase: [],
+      tokenData: null,
       isListVisible: true
     };
   },
   created: function created() {
     this.clientesInDatabase = JSON.parse(this.data);
+    this.tokenData = this.token;
   },
 
+
+  computed: {
+    optionsForProcessos: function optionsForProcessos() {
+      return "<option v-for='processo in processoPack' :value='processo.id_processo'>{{ processo.nome_processo }} - processo.numero_processo</option>";
+    }
+  },
 
   methods: {
     toggleVisible: function toggleVisible(input) {
@@ -267,6 +284,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           $("#changeIcon").addClass('fa-plus');
         }
       }
+    },
+    // End => toggleVisible()
+
+    findProcesso: function findProcesso() {
+      var vm = this;
+      var clienteSelected = $("#clienteSelecionado");
+      axios.get('/processo/search?' + clienteSelected.val()).then(function (response) {
+        vm.processoPack = response.data;
+      });
+    }, //End => findProcesso()
+
+    findFiles: function findFiles() {
+      var vm = this;
+      var processoSelected = $("#processosRelacionados");
+
+      this.filesPack = [processoSelected.val()];
+
+      axios.get("/pastas/search?" + processoSelected.val()).then(function (response) {
+        console.log(response);
+      });
     }
   }
 });
@@ -277,19 +314,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(55),
-  /* template */
-  __webpack_require__(56),
-  /* styles */
-  null,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(55)
+/* template */
+var __vue_template__ = __webpack_require__(56)
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
 )
-Component.options.__file = "D:\\Sistemas\\newMaker\\resources\\assets\\js\\components\\pastas\\dropzone.vue"
+Component.options.__file = "resources\\assets\\js\\components\\pastas\\dropzone.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] dropzone.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -327,6 +370,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var STATUS_INITIAL = 1,
     STATUS_SAVING = 2,
@@ -334,78 +389,77 @@ var STATUS_INITIAL = 1,
     STATUS_FAILED = 0;
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	name: 'dropzone',
-	data: function data() {
-		return {
-			uploadedFiles: [],
-			uploadError: null,
-			uploadStatus: null
-		};
-	},
+  name: 'dropzone',
+  props: ['token'],
+  data: function data() {
+    return {
+      uploadedFiles: [],
+      FilesToUpload: [],
+      tokenData: null,
+      uploadError: null,
+      uploadStatus: null
+    };
+  },
 
 
-	computed: {
-		isInitial: function isInitial() {
-			return this.uploadStatus === STATUS_INITIAL;
-		},
-		isSaving: function isSaving() {
-			return this.uploadStatus === STATUS_SAVING;
-		},
-		isSuccess: function isSuccess() {
-			return this.uploadStatus === STATUS_SUCCESS;
-		},
-		isFailed: function isFailed() {
-			return this.uploadStatus === STATUS_FAILED;
-		}
-	},
+  computed: {
+    isInitial: function isInitial() {
+      return this.uploadStatus === STATUS_INITIAL;
+    },
+    isSaving: function isSaving() {
+      return this.uploadStatus === STATUS_SAVING;
+    },
+    isSuccess: function isSuccess() {
+      return this.uploadStatus === STATUS_SUCCESS;
+    },
+    isFailed: function isFailed() {
+      return this.uploadStatus === STATUS_FAILED;
+    }
+  },
 
-	creates: function creates() {
-		window.console.log("Dropzone Iniciada");
-	},
-	mounted: function mounted() {
-		this.reset();
-	},
+  creates: function creates() {
+    window.console.log("Dropzone Iniciada");
+    tokenData = this.token;
+  },
+  mounted: function mounted() {
+    this.reset();
+  },
 
 
-	methods: {
-		filesRecived: function filesRecived(arquivosRecebidos) {
-			//Vou começar a olahr os arquivos relacionados
-			var arrayOfFiles = [];
-			window.console.log('Iniciando o tratamento');
+  methods: {
+    upload: function upload() {
+      //Vou começar a olahr os arquivos relacionados 
+      var vm = this;
+      var data = new FormData();
+      data.append('file', document.getElementById('files').files[0]);
 
-			if (!arquivosRecebidos.length) return;
+      var config = {
+        onUploadProgress: function onUploadProgress(progressEvent) {
+          var percentCompleted = Math.round(progressEvent.loaded * 100 / progressEvent.total);
+        }
+      };
 
-			Array.from(Array(arquivosRecebidos.length).keys()).map(function (x) {
-				arrayOfFiles.push(arquivosRecebidos[x], arquivosRecebidos[x].name);
-			});
+      axios.put('/pastas/upload', data, config).then(function (x) {
+        vm.uploadedFiles.push(x.data);
+        vm.uploadStatus = STATUS_SUCCESS;
+        console.log('=================== UPLOAD ENCERRADO ===================');
+      }).catch(function (err) {
+        vm.uploadError = err.message;
+        vm.uploadStatus = STATUS_FAILED;
+      });
+    },
+    reset: function reset() {
+      this.uploadedFiles = [];
+    },
 
-			window.console.log('Array => ' + arrayOfFiles);
-			//Salvando
-			window.console.log("Iniciando o UPLOAD");
-			this.upload(arrayOfFiles);
-		},
-		upload: function upload(filesToUpload) {
-			var _this = this;
 
-			window.console.log("UPLOAD iniciado");
-			axios({
-				method: 'post',
-				url: './pastas/upload',
-				data: this.filesToUpload
-			}).then(function (x) {
-				window.console.log('Component => ' + _this.uploadedFiles.lenght);
-				_this.uploadedFiles = [].concat(x);
-				_this.uploadStatus = STATUS_SUCCESS;
-			}).catch(function (err) {
-				window.console.log("ERROR!\n" + _this.err.response);
-				_this.uploadError = err.response;
-				_this.uploadStatus = STATUS_FAILED;
-			});
-		},
-		reset: function reset() {
-			window.console.log("NÃO ME ENCHA MAIS");
-		}
-	}
+    newFile: function newFile() {
+      var files = new FormData();
+      files.append('file', document.getElementById('files').files[0]);
+      this.FilesToUpload.push(files);
+      console.log(files);
+    }
+  }
 });
 
 /***/ }),
@@ -413,30 +467,73 @@ var STATUS_INITIAL = 1,
 /***/ 56:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', {
-    staticClass: "dropzone",
-    attrs: {
-      "id": "dropzone"
-    }
-  }, [_c('input', {
-    staticClass: "input-file",
-    attrs: {
-      "type": "file",
-      "name": "arquivos[]",
-      "multiple": ""
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "form",
+      {
+        staticClass: "form",
+        attrs: { role: "form", onsubmit: "return false;" }
       },
-      "change": function($event) {
-        _vm.filesRecived($event.target.files)
-      }
-    }
-  })])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
+      [
+        _c(
+          "div",
+          { staticClass: "dropzone form-control", attrs: { id: "dropzone" } },
+          [
+            _c("input", {
+              staticClass: "input-file",
+              attrs: { type: "file", id: "files", multiple: "" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                },
+                dragend: _vm.newFile
+              }
+            })
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary col-md-2", on: { click: _vm.upload } },
+        [_vm._v("Upload "), _c("i", { staticClass: "fa fa-upload" })]
+      ),
+      _vm._v(" "),
+      _vm._m(0)
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "progress col-md-10" }, [
+      _c(
+        "div",
+        {
+          staticClass: "progress-bar",
+          staticStyle: { width: "60%" },
+          attrs: {
+            role: "progressbar",
+            "aria-valuenow": "60",
+            "aria-valuemin": "0",
+            "aria-valuemax": "100"
+          }
+        },
+        [_vm._v("\n\t\t    60%\n\t\t  ")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
@@ -449,56 +546,100 @@ if (false) {
 /***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('button', {
-    staticClass: "btn btn-default buttonFloating",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.toggleVisible
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-plus",
-    attrs: {
-      "id": "changeIcon"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-6"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('select', {
-    staticClass: "form-control",
-    attrs: {
-      "name": "clientes"
-    }
-  }, [_c('option'), _vm._v(" "), _vm._l((_vm.clientesInDatabase), function(cliente) {
-    return _c('option', {
-      domProps: {
-        "value": cliente.id_cliente
-      }
-    }, [_vm._v(_vm._s(cliente.nome))])
-  })], 2)])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), (_vm.isListVisible) ? _c('div') : _c('file-dropzone')], 1)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col-md-6"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('select', {
-    staticClass: "form-control",
-    attrs: {
-      "name": "processos",
-      "id": "processosRelacionados"
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": ""
-    }
-  })])])])
-}]}
-module.exports.render._withStripped = true
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-default buttonFloating",
+        attrs: { type: "button" },
+        on: { click: _vm.toggleVisible }
+      },
+      [_c("i", { staticClass: "fa fa-plus", attrs: { id: "changeIcon" } })]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "select",
+            {
+              staticClass: "form-control",
+              attrs: { name: "clientes", id: "clienteSelecionado" },
+              on: { blur: _vm.findProcesso }
+            },
+            _vm._l(_vm.clientesInDatabase, function(cliente) {
+              return _c("option", { domProps: { value: cliente.id_cliente } }, [
+                _vm._v(_vm._s(cliente.nome))
+              ])
+            })
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "select",
+            {
+              staticClass: "form-control",
+              attrs: { name: "processos", id: "processosRelacionados" },
+              on: { blur: _vm.findFiles }
+            },
+            _vm._l(_vm.processoPack, function(processo) {
+              return _c(
+                "option",
+                { domProps: { value: processo.id_processo } },
+                [
+                  _vm._v(
+                    _vm._s(processo.nome_processo) +
+                      " - " +
+                      _vm._s(processo.numero_processo)
+                  )
+                ]
+              )
+            })
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.isListVisible
+      ? _c("div", [_vm._m(0)])
+      : _c("div", [_c("file-dropzone")], 1)
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "table",
+      { staticClass: "table table-active table-striped table-hover" },
+      [
+        _c("thead", [
+          _c("tr", [
+            _c("th", { attrs: { colspan: "15" } }, [_vm._v("NOME")]),
+            _vm._v(" "),
+            _c("th", { attrs: { colspan: "3" } }, [_vm._v("TIPO")]),
+            _vm._v(" "),
+            _c("th", { attrs: { colspan: "5" } }, [_vm._v("UPLOAD")]),
+            _vm._v(" "),
+            _c("th")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tbody", [_c("tr")])
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {

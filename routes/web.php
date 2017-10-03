@@ -21,19 +21,22 @@ Route::get('/home', 'HomeController@read')->name('home');
 //Route -> Processo
 Route::get('/processo', 'ProcessoController@read')->name('processo');
 Route::post('/processo/store', 'ProcessoController@create')->name('processo.store');
-
+Route::get('/processo/search', 'ProcessoController@searchInDatabaseAll')->name('processo.all');
+Route::get('/processo/search?{id}', 'ProcessoController@searchInDatabase')->name('processo.id');
 
 //Route -> Movimentacao
 Route::get('/movimentacao',' MovimentacaoController@read')->name('movimentacao');
 
 // Route -> Pastas
 Route::get('/pastas', 'PastasController@read')->name('pastas');
-Route::post('/pastas/upload', 'PastasController@upload')->name('upload');
+Route::put('/pastas/upload', 'PastasController@upload')->name('upload');
+Route::get('/pastas/search?{id}', 'PastasController@searchInDatabase');
 
 //Route -> Cliente
 Route::match(['get', 'post'], '/clientes', 'ClientesController@read')->name('clientes');
 Route::post('/clientes/store', 'ClientesController@create')->name('clientes.store');
-Route::get('/clientes/search', 'ClientesController@serchInDatabase');
+Route::get('/clientes/search','ClientesController@serchInDatabaseAll');
+Route::get('/clientes/search/{id}','ClientesController@serchInDatabase');
 
 //Route -> Others
 Route::get('/competencias','OtherController@competenciasRead');

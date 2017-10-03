@@ -22,10 +22,19 @@ class ClientesController extends Controller
     	 return response()->json(['Status' => 'Success']);
     }
 
-    public function serchInDatabase(){
+    public function serchInDatabaseAll(){
+        $query_result = Clientes::all();
 
-            $query_result = Clientes::all();
-            
+         return response()->json([$query_result]);
+    }
+
+    public function serchInDatabase(Request $request, $id){
+
+            $query_result = DB::table('clientes')
+                            ->select('id_cliente', 'nome')
+                            ->where('id_cliente', $id)
+                            ->get();
+        
         return response()->json([$query_result]);
     }
 }

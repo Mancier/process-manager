@@ -188,19 +188,25 @@ $(document).ready(function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(48),
-  /* template */
-  __webpack_require__(49),
-  /* styles */
-  null,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(48)
+/* template */
+var __vue_template__ = __webpack_require__(49)
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
 )
-Component.options.__file = "D:\\Sistemas\\newMaker\\resources\\assets\\js\\components\\processos\\listProcesso.vue"
+Component.options.__file = "resources\\assets\\js\\components\\processos\\listProcesso.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] listProcesso.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -327,7 +333,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         break;
                     // Edn -> case 200
 
-                    default:
+                    case 500:
                         $.sweetModal({
                             title: 'Oops!',
                             content: 'Error: ' + response.message,
@@ -339,6 +345,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             }]
                         }); //End -> default
                         break;
+
+                    default:
+                        console.log('Default option');
+                        break;
+
                 } // End => switch
             }); //End => .then()
         },
@@ -400,503 +411,661 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('button', {
-    staticClass: "btn btn-default buttonFloating",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.toggleVisible
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-plus",
-    attrs: {
-      "id": "changeIcon"
-    }
-  })]), _vm._v(" "), (_vm.isListVisible) ? _c('div', {
-    attrs: {
-      "id": "tableProcesso"
-    }
-  }, [_c('table', {
-    staticClass: "table table-striped"
-  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.processosInDatabase), function(processo) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(processo.nome_processo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(processo.numero_processo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(processo.autor))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(processo.reu))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(processo.valor_causa))]), _vm._v(" "), _c('td', {
-      attrs: {
-        "colspan": "1"
-      }
-    }, [_c('input', {
-      attrs: {
-        "type": "checkbox"
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-default buttonFloating",
+        attrs: { type: "button" },
+        on: { click: _vm.toggleVisible }
       },
-      domProps: {
-        "value": processo.id_processo
-      }
-    })])])
-  }))])]) : _c('div', {
-    staticClass: "container-half"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "form-group col-md-6"
-  }, [_vm._m(1), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newProcess.numero_processo),
-      expression: "newProcess.numero_processo"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "name": "numero_processo",
-      "id": "numero_processo",
-      "required": "true"
-    },
-    domProps: {
-      "value": (_vm.newProcess.numero_processo)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newProcess.numero_processo = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group col-md-6"
-  }, [_vm._m(2), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newProcess.nome_processo),
-      expression: "newProcess.nome_processo"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "id": "nome_processo",
-      "name": "nome_processo",
-      "required": "true"
-    },
-    domProps: {
-      "value": (_vm.newProcess.nome_processo)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newProcess.nome_processo = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-3 form-group"
-  }, [_vm._m(3), _vm._v(" "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newProcess.cliente),
-      expression: "newProcess.cliente"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "name": "cliente"
-    },
-    on: {
-      "change": [function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.newProcess.cliente = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }, _vm.desabilitandoCampos]
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "Autor"
-    }
-  }, [_vm._v("Autor")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "Réu"
-    }
-  }, [_vm._v("Réu")])])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-5 form-group"
-  }, [_vm._m(4), _vm._v(" "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newProcess.competencia_fk),
-      expression: "newProcess.competencia_fk"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "name": "competencia",
-      "id": "competencia"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.newProcess.competencia_fk = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, _vm._l((_vm.competenciasInDatabase), function(competenciaSelect) {
-    return _c('option', {
-      domProps: {
-        "value": competenciaSelect.id_competencia
-      }
-    }, [_vm._v(_vm._s(competenciaSelect.nome_opcao))])
-  }))]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4 form-group"
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
-    staticClass: "input-group"
-  }, [_c('span', {
-    staticClass: "input-group-addon"
-  }, [_vm._v("R$")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newProcess.valor_causa),
-      expression: "newProcess.valor_causa"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "name": "valor_causa",
-      "id": "valor_causa",
-      "required": "true"
-    },
-    domProps: {
-      "value": (_vm.newProcess.valor_causa)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newProcess.valor_causa = $event.target.value
-      }
-    }
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
-    staticClass: "input-group"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newProcess.autor),
-      expression: "newProcess.autor"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "name": "autor",
-      "id": "autor",
-      "required": "true"
-    },
-    domProps: {
-      "value": (_vm.newProcess.autor)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newProcess.autor = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('span', {
-    staticClass: "input-group-btn"
-  }, [_c('a', {
-    staticClass: "btn btn-default disabled",
-    attrs: {
-      "href": "#clienteModal",
-      "id": "autorButton",
-      "data-toggle": "modal"
-    },
-    on: {
-      "click": _vm.findCliente
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-search"
-  })])])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
-    staticClass: "input-group"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newProcess.reu),
-      expression: "newProcess.reu"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "name": "reu",
-      "id": "reu",
-      "required": "true"
-    },
-    domProps: {
-      "value": (_vm.newProcess.reu)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newProcess.reu = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('span', {
-    staticClass: "input-group-btn"
-  }, [_c('a', {
-    staticClass: "btn btn-default disabled",
-    attrs: {
-      "href": "#clienteModal",
-      "id": "reuButton",
-      "data-toggle": "modal"
-    },
-    on: {
-      "click": _vm.findCliente
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-search"
-  })])])])]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "form-group col-md-5"
-  }, [_vm._m(8), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newProcess.comarca),
-      expression: "newProcess.comarca"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "name": "comarca",
-      "id": "comarca"
-    },
-    domProps: {
-      "value": (_vm.newProcess.comarca)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newProcess.comarca = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group col-md-7"
-  }, [_vm._m(9), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newProcess.unidade),
-      expression: "newProcess.unidade"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "name": "unidade",
-      "id": "unidade"
-    },
-    domProps: {
-      "value": (_vm.newProcess.unidade)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newProcess.unidade = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "observavao"
-    }
-  }, [_vm._v("Observção")]), _vm._v(" "), _c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newProcess.observacao),
-      expression: "newProcess.observacao"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "name": "observacao",
-      "id": "observacao",
-      "rows": "5"
-    },
-    domProps: {
-      "value": (_vm.newProcess.observacao)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newProcess.observacao = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-success",
-    staticStyle: {
-      "float": "right"
-    },
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.addProcesso
-    }
-  }, [_vm._v("Salvar "), _c('i', {
-    staticClass: "fa fa-plus"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "modal fade",
-    attrs: {
-      "id": "clienteModal"
-    }
-  }, [_c('div', {
-    staticClass: "modal-dialog",
-    staticStyle: {
-      "width": "65%"
-    },
-    attrs: {
-      "role": "document"
-    }
-  }, [_c('div', {
-    staticClass: "modal-content"
-  }, [_c('div', {
-    staticClass: "modal-header"
-  }, [_vm._m(10), _vm._v(" "), _c('h4', {
-    staticClass: "modal-title"
-  }, [_c('center', [_vm._v("Clientes")])], 1)]), _vm._v(" "), _c('div', {
-    staticClass: "modal-body"
-  }, [_c('table', {
-    staticClass: "table table-striped"
-  }, [_vm._m(11), _vm._v(" "), _c('tbody', _vm._l((_vm.whoIsCliente), function(option) {
-    return _c('tr', {
-      on: {
-        "dblclick": function($event) {
-          _vm.clientSelected(option.id_cliente, option.nome)
+      [_c("i", { staticClass: "fa fa-plus", attrs: { id: "changeIcon" } })]
+    ),
+    _vm._v(" "),
+    _vm.isListVisible
+      ? _c("div", { attrs: { id: "tableProcesso" } }, [
+          _c("table", { staticClass: "table table-striped" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.processosInDatabase, function(processo) {
+                return _c("tr", [
+                  _c("td", [_vm._v(_vm._s(processo.nome_processo))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(processo.numero_processo))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(processo.autor))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(processo.reu))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(processo.valor_causa))]),
+                  _vm._v(" "),
+                  _c("td", { attrs: { colspan: "1" } }, [
+                    _c("input", {
+                      attrs: { type: "checkbox" },
+                      domProps: { value: processo.id_processo }
+                    })
+                  ])
+                ])
+              })
+            )
+          ])
+        ])
+      : _c("div", { staticClass: "container-half" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "form-group col-md-6" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newProcess.numero_processo,
+                    expression: "newProcess.numero_processo"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  name: "numero_processo",
+                  id: "numero_processo",
+                  required: "true"
+                },
+                domProps: { value: _vm.newProcess.numero_processo },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.newProcess.numero_processo = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group col-md-6" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newProcess.nome_processo,
+                    expression: "newProcess.nome_processo"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  id: "nome_processo",
+                  name: "nome_processo",
+                  required: "true"
+                },
+                domProps: { value: _vm.newProcess.nome_processo },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.newProcess.nome_processo = $event.target.value
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-3 form-group" }, [
+              _vm._m(3),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.newProcess.cliente,
+                      expression: "newProcess.cliente"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "cliente" },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.newProcess.cliente = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      _vm.desabilitandoCampos
+                    ]
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "Autor" } }, [
+                    _vm._v("Autor")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "Réu" } }, [_vm._v("Réu")])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-5 form-group" }, [
+              _vm._m(4),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.newProcess.competencia_fk,
+                      expression: "newProcess.competencia_fk"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "competencia", id: "competencia" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.newProcess.competencia_fk = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                _vm._l(_vm.competenciasInDatabase, function(competenciaSelect) {
+                  return _c(
+                    "option",
+                    { domProps: { value: competenciaSelect.id_competencia } },
+                    [_vm._v(_vm._s(competenciaSelect.nome_opcao))]
+                  )
+                })
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4 form-group" }, [
+              _vm._m(5),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-group" }, [
+                _c("span", { staticClass: "input-group-addon" }, [
+                  _vm._v("R$")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.newProcess.valor_causa,
+                      expression: "newProcess.valor_causa"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    name: "valor_causa",
+                    id: "valor_causa",
+                    required: "true"
+                  },
+                  domProps: { value: _vm.newProcess.valor_causa },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.newProcess.valor_causa = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _vm._m(6),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newProcess.autor,
+                    expression: "newProcess.autor"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  name: "autor",
+                  id: "autor",
+                  required: "true"
+                },
+                domProps: { value: _vm.newProcess.autor },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.newProcess.autor = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "input-group-btn" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-default disabled",
+                    attrs: {
+                      href: "#clienteModal",
+                      id: "autorButton",
+                      "data-toggle": "modal"
+                    },
+                    on: { click: _vm.findCliente }
+                  },
+                  [_c("i", { staticClass: "fa fa-search" })]
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _vm._m(7),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newProcess.reu,
+                    expression: "newProcess.reu"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  name: "reu",
+                  id: "reu",
+                  required: "true"
+                },
+                domProps: { value: _vm.newProcess.reu },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.newProcess.reu = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "input-group-btn" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-default disabled",
+                    attrs: {
+                      href: "#clienteModal",
+                      id: "reuButton",
+                      "data-toggle": "modal"
+                    },
+                    on: { click: _vm.findCliente }
+                  },
+                  [_c("i", { staticClass: "fa fa-search" })]
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "form-group col-md-5" }, [
+              _vm._m(8),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newProcess.comarca,
+                    expression: "newProcess.comarca"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", name: "comarca", id: "comarca" },
+                domProps: { value: _vm.newProcess.comarca },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.newProcess.comarca = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group col-md-7" }, [
+              _vm._m(9),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newProcess.unidade,
+                    expression: "newProcess.unidade"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", name: "unidade", id: "unidade" },
+                domProps: { value: _vm.newProcess.unidade },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.newProcess.unidade = $event.target.value
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "observavao" } }, [
+              _vm._v("Observção")
+            ]),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newProcess.observacao,
+                  expression: "newProcess.observacao"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { name: "observacao", id: "observacao", rows: "5" },
+              domProps: { value: _vm.newProcess.observacao },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.newProcess.observacao = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              staticStyle: { float: "right" },
+              attrs: { type: "button" },
+              on: { click: _vm.addProcesso }
+            },
+            [_vm._v("Salvar "), _c("i", { staticClass: "fa fa-plus" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "modal fade", attrs: { id: "clienteModal" } },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "modal-dialog",
+                  staticStyle: { width: "65%" },
+                  attrs: { role: "document" }
+                },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _c("div", { staticClass: "modal-header" }, [
+                      _vm._m(10),
+                      _vm._v(" "),
+                      _c(
+                        "h4",
+                        { staticClass: "modal-title" },
+                        [_c("center", [_vm._v("Clientes")])],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("table", { staticClass: "table table-striped" }, [
+                        _vm._m(11),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.whoIsCliente, function(option) {
+                            return _c(
+                              "tr",
+                              {
+                                on: {
+                                  dblclick: function($event) {
+                                    _vm.clientSelected(
+                                      option.id_cliente,
+                                      option.nome
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("td", [_vm._v(_vm._s(option.nome))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(
+                                      option.cpf ? option.cpf : option.cnpj
+                                    )
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(option.email))])
+                              ]
+                            )
+                          })
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(12)
+                  ])
+                ]
+              )
+            ]
+          )
+        ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Nome")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Número")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Autor")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Réu")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Valor (R$)")]),
+        _vm._v(" "),
+        _c("th", { attrs: { colspan: "1" } }, [
+          _c("input", { attrs: { type: "checkbox" } })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "numero_processo" } }, [
+      _vm._v("Número do processo"),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "nome_processo" } }, [
+      _vm._v("Nome Ação"),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "cliente" } }, [
+      _vm._v("Cliente"),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "competencia" } }, [
+      _vm._v("Competencia"),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "valor_causa" } }, [
+      _vm._v("Valor da Causa"),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "autor" } }, [
+      _vm._v("Autor"),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "reu" } }, [
+      _vm._v("Réu"),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "comarca" } }, [
+      _vm._v("Comarca"),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "unidade" } }, [
+      _vm._v("Unidade"),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
         }
-      }
-    }, [_c('td', [_vm._v(_vm._s(option.nome))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(option.cpf ? option.cpf : option.cnpj))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(option.email))])])
-  }))])]), _vm._v(" "), _vm._m(12)])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("Nome")]), _vm._v(" "), _c('th', [_vm._v("Número")]), _vm._v(" "), _c('th', [_vm._v("Autor")]), _vm._v(" "), _c('th', [_vm._v("Réu")]), _vm._v(" "), _c('th', [_vm._v("Valor")]), _vm._v(" "), _c('th', {
-    attrs: {
-      "colspan": "1"
-    }
-  }, [_c('input', {
-    attrs: {
-      "type": "checkbox"
-    }
-  })])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('label', {
-    attrs: {
-      "for": "numero_processo"
-    }
-  }, [_vm._v("Número do processo"), _c('span', {
-    staticClass: "text-danger"
-  }, [_vm._v("*")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('label', {
-    attrs: {
-      "for": "nome_processo"
-    }
-  }, [_vm._v("Nome Ação"), _c('span', {
-    staticClass: "text-danger"
-  }, [_vm._v("*")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('label', {
-    attrs: {
-      "for": "cliente"
-    }
-  }, [_vm._v("Cliente"), _c('span', {
-    staticClass: "text-danger"
-  }, [_vm._v("*")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('label', {
-    attrs: {
-      "for": "competencia"
-    }
-  }, [_vm._v("Competencia"), _c('span', {
-    staticClass: "text-danger"
-  }, [_vm._v("*")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('label', {
-    attrs: {
-      "for": "valor_causa"
-    }
-  }, [_vm._v("Valor da Causa"), _c('span', {
-    staticClass: "text-danger"
-  }, [_vm._v("*")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('label', {
-    attrs: {
-      "for": "autor"
-    }
-  }, [_vm._v("Autor"), _c('span', {
-    staticClass: "text-danger"
-  }, [_vm._v("*")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('label', {
-    attrs: {
-      "for": "reu"
-    }
-  }, [_vm._v("Réu"), _c('span', {
-    staticClass: "text-danger"
-  }, [_vm._v("*")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('label', {
-    attrs: {
-      "for": "comarca"
-    }
-  }, [_vm._v("Comarca"), _c('span', {
-    staticClass: "text-danger"
-  }, [_vm._v("*")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('label', {
-    attrs: {
-      "for": "unidade"
-    }
-  }, [_vm._v("Unidade"), _c('span', {
-    staticClass: "text-danger"
-  }, [_vm._v("*")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "close",
-    attrs: {
-      "type": "button",
-      "data-dismiss": "modal",
-      "aria-label": "Close"
-    }
-  }, [_c('span', {
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }, [_vm._v("×")]), _vm._v(" "), _c('span', {
-    staticClass: "sr-only"
-  }, [_vm._v("Close")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("Nome")]), _vm._v(" "), _c('th', [_vm._v("CNPJ/CPF")]), _vm._v(" "), _c('th', [_vm._v("Email")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "modal-footer"
-  }, [_c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button",
-      "data-dismiss": "modal"
-    }
-  }, [_vm._v("Close")])])
-}]}
-module.exports.render._withStripped = true
+      },
+      [
+        _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "sr-only" }, [_vm._v("Close")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Nome")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("CNPJ/CPF")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Email")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-default",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {

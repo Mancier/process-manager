@@ -52,15 +52,12 @@
 .dropzone{
 	width: 100%;
 	min-height: 450px;
-	border: 1px solid #292F36;
-	background-color: #ECEBE4;
 	position: relative;
-    cursor: pointer;
     margin-bottom: 5px; 
 
-	&:hover{
-		background-color: #DADDD8;
-	}
+	// &:hover{
+	// 	background-color: #DADDD8;
+	// }
 }
 
 #progress{

@@ -67,31 +67,29 @@
                 this.cliente.uf = '...'
                 this.cliente.bairro = '...'
 
-                if (this.cliente.cep.length >= 8) {
-                    window.console.log("Iniciando busca...")
-                    $.getJSON('https://viacep.com.br/ws/'+this.cliente.cep+'/json/', function(dados) {
+                window.console.log("Iniciando busca...")
+                $.getJSON('https://viacep.com.br/ws/'+this.cliente.cep+'/json/', function(dados) {
 
-                    self.cliente.endereco = dados.logradouro
-                    self.cliente.municipio = dados.localidade
-                    self.cliente.uf = dados.uf
-                    self.cliente.bairro = dados.bairro
+                self.cliente.endereco = dados.logradouro
+                self.cliente.municipio = dados.localidade
+                self.cliente.uf = dados.uf
+                self.cliente.bairro = dados.bairro
 
-                    //Verifica se o cep tem uma rua correspondente
-                        if(dados.logradouro === ''){
-                            $("#endereco").removeAttr('readonly')
-                            $("#bairro").removeAttr('readonly')
-                            
-                            $("#bairro").focus();
-                        }
-                        else{
-                        // focar no Campo Numero da casa
-                            $("#endereco").add('readonly')
-                            $("#bairro").add('readonly')
-                            
-                            $("#numero_casa").focus()
-                        }
-                    })
-                }
+                //Verifica se o cep tem uma rua correspondente
+                    if(dados.logradouro === ''){
+                        $("#endereco").removeAttr('readonly')
+                        $("#bairro").removeAttr('readonly')
+                        
+                        $("#bairro").focus();
+                    }
+                    else{
+                    // focar no Campo Numero da casa
+                        $("#endereco").add('readonly')
+                        $("#bairro").add('readonly')
+                        
+                        $("#numero_casa").focus()
+                    }
+                })                
             },
 
             togglePessoa(){
@@ -275,7 +273,7 @@
                 <div class="row">
                     <div class="form-group col-md-3">
                     	<label for="cep">CEP<span class="text-danger">*</span></label>
-                        <input type="text" name="cep" id="cep" class="form-control" required="true" v-model="cliente.cep" @keyup="buscarCep">
+                        <input type="text" name="cep" id="cep" class="form-control" required="true" v-model="cliente.cep" @blur="buscarCep">
                     </div>
                         
                     <div class="form-group col-md-5">

@@ -103,7 +103,7 @@
             				break
             				// Edn -> case 200
 
-            			default:
+            			case 500:
             				$.sweetModal({
                                 title: 'Oops!',
                                 content: 'Error: '+response.message,
@@ -117,6 +117,11 @@
                                 ]
                             }) //End -> default
             			break
+
+            			default:
+            				console.log('Default option')
+            			break
+
             		} // End => switch
             	}) //End => .then()
             }, //End => addProcesso()
@@ -188,7 +193,7 @@
 						<th>Número</th>
 						<th>Autor</th>
 						<th>Réu</th>
-						<th>Valor</th>
+						<th>Valor (R$)</th>
 						<th colspan="1">
 							<input type="checkbox">
 						</th>
