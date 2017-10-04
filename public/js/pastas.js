@@ -250,7 +250,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   data: function data() {
     return {
+      clienteID: null,
       clientePack: [],
+      processoID: null,
       processoPack: [],
       filesPack: [],
       clientesInDatabase: [],
@@ -264,11 +266,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
 
-  computed: {
-    optionsForProcessos: function optionsForProcessos() {
-      return "<option v-for='processo in processoPack' :value='processo.id_processo'>{{ processo.nome_processo }} - processo.numero_processo</option>";
-    }
-  },
+  computed: {},
 
   methods: {
     toggleVisible: function toggleVisible(input) {
@@ -290,6 +288,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     findProcesso: function findProcesso() {
       var vm = this;
       var clienteSelected = $("#clienteSelecionado");
+
+      this.clienteID = clienteSelected.val();
+
       axios.get('/processo/search?' + clienteSelected.val()).then(function (response) {
         vm.processoPack = response.data;
       });
@@ -299,10 +300,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       var processoSelected = $("#processosRelacionados");
 
-      this.filesPack = [processoSelected.val()];
+      this.processoID = processoSelected.val();
 
-      axios.get("/pastas/search?" + processoSelected.val()).then(function (response) {
+      axios.get('/pastas/search/' + processoSelected.val()).then(function (response) {
         console.log(response);
+        vm.filesPack = response.data;
       });
     }
   }
@@ -382,6 +384,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var STATUS_INITIAL = 1,
     STATUS_SAVING = 2,
@@ -390,7 +406,7 @@ var STATUS_INITIAL = 1,
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'dropzone',
-  props: ['token'],
+  props: ['cliente', 'processo'],
   data: function data() {
     return {
       uploadedFiles: [],
@@ -427,37 +443,33 @@ var STATUS_INITIAL = 1,
 
 
   methods: {
-    upload: function upload() {
-      //Vou começar a olahr os arquivos relacionados 
-      var vm = this;
-      var data = new FormData();
-      data.append('file', document.getElementById('files').files[0]);
-
-      var config = {
-        onUploadProgress: function onUploadProgress(progressEvent) {
-          var percentCompleted = Math.round(progressEvent.loaded * 100 / progressEvent.total);
-        }
-      };
-
-      axios.put('/pastas/upload', data, config).then(function (x) {
-        vm.uploadedFiles.push(x.data);
-        vm.uploadStatus = STATUS_SUCCESS;
-        console.log('=================== UPLOAD ENCERRADO ===================');
-      }).catch(function (err) {
-        vm.uploadError = err.message;
-        vm.uploadStatus = STATUS_FAILED;
-      });
-    },
     reset: function reset() {
       this.uploadedFiles = [];
     },
 
 
     newFile: function newFile() {
-      var files = new FormData();
-      files.append('file', document.getElementById('files').files[0]);
-      this.FilesToUpload.push(files);
-      console.log(files);
+      var i = 0;
+      var vm = this;
+
+      var fieldOfInput = document.querySelector("#fileItem");
+      var fileList = fieldOfInput.files;
+
+      while (i < fileList.length) {
+        var file = fileList[i];
+
+        axios.put('/pastas/upload/' + this.cliente + '/' + this.processo).then(function (response) {
+          vm.uploadStatus = STATUS_SUCCESS;
+          vm.uploadedFiles.push(file);
+          console.log('=================== UPLOAD ENCERRADO ===================');
+        });
+
+        console.log(file);
+        i++;
+      }
+
+      // files.append('file', document.getElementById('fileItem').files[0])
+      // this.FilesToUpload.push(files)
     }
   }
 });
@@ -476,7 +488,7 @@ var render = function() {
       "form",
       {
         staticClass: "form",
-        attrs: { role: "form", onsubmit: "return false;" }
+        attrs: { role: "form", enctype: "multipart/form-data" }
       },
       [
         _c(
@@ -485,28 +497,35 @@ var render = function() {
           [
             _c("input", {
               staticClass: "input-file",
-              attrs: { type: "file", id: "files", multiple: "" },
+              attrs: { type: "file", id: "fileItem", multiple: "" },
               on: {
                 click: function($event) {
                   $event.preventDefault()
                 },
-                dragend: _vm.newFile
+                change: _vm.newFile
               }
-            })
+            }),
+            _vm._v(" "),
+            _c("table", { staticClass: "table table-striped table-hover" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.uploadedFiles, function(files) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(files.name))]),
+                    _vm._v(" "),
+                    _vm._m(1, true)
+                  ])
+                })
+              )
+            ])
           ]
         )
       ]
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary col-md-2", on: { click: _vm.upload } },
-        [_vm._v("Upload "), _c("i", { staticClass: "fa fa-upload" })]
-      ),
-      _vm._v(" "),
-      _vm._m(0)
-    ])
+    _vm._m(2)
   ])
 }
 var staticRenderFns = [
@@ -514,21 +533,41 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "progress col-md-10" }, [
-      _c(
-        "div",
-        {
-          staticClass: "progress-bar",
-          staticStyle: { width: "60%" },
-          attrs: {
-            role: "progressbar",
-            "aria-valuenow": "60",
-            "aria-valuemin": "0",
-            "aria-valuemax": "100"
-          }
-        },
-        [_vm._v("\n\t\t    60%\n\t\t  ")]
-      )
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Nome")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Opções")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("i", { staticClass: "text-success fa fa-check" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("div", { staticClass: "progress" }, [
+        _c(
+          "div",
+          {
+            staticClass: "progress-bar",
+            staticStyle: { "min-width": "5%" },
+            attrs: {
+              role: "progressbar",
+              "aria-valuenow": "100",
+              "aria-valuemin": "0",
+              "aria-valuemax": "100"
+            }
+          },
+          [_vm._v("\n\t\t\t    5%\n\t\t\t  ")]
+        )
+      ])
     ])
   }
 ]
@@ -609,7 +648,15 @@ var render = function() {
     _vm._v(" "),
     _vm.isListVisible
       ? _c("div", [_vm._m(0)])
-      : _c("div", [_c("file-dropzone")], 1)
+      : _c(
+          "div",
+          [
+            _c("file-dropzone", {
+              attrs: { processo: _vm.processoID, cliente: _vm.clienteID }
+            })
+          ],
+          1
+        )
   ])
 }
 var staticRenderFns = [

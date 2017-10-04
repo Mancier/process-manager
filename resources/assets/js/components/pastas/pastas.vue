@@ -10,7 +10,9 @@ export default{
 
 	data(){
 		return{
+			clienteID: null,
 			clientePack: [],
+			processoID:null,
 			processoPack: [],
 			filesPack: [],
 			clientesInDatabase: [],
@@ -24,9 +26,7 @@ export default{
 	},
 
 	computed:{
-		optionsForProcessos: function(){
-			return "<option v-for='processo in processoPack' :value='processo.id_processo'>{{ processo.nome_processo }} - processo.numero_processo</option>"
-		}
+
 	},
 
 	methods: {
@@ -53,6 +53,9 @@ export default{
         findProcesso: function(){
         	var vm = this 
         	var clienteSelected = $("#clienteSelecionado")
+
+        	this.clienteID = clienteSelected.val()
+
         	axios.get('/processo/search?'+clienteSelected.val())
         	.then(response => {
         		vm.processoPack = response.data
@@ -63,11 +66,12 @@ export default{
         	var vm = this
         	var processoSelected = $("#processosRelacionados")
 
-        	this.filesPack = [processoSelected.val()]
+        	this.processoID = processoSelected.val()
 
-        	axios.get("/pastas/search?"+processoSelected.val())
+        	axios.get('/pastas/search/'+processoSelected.val())
         	.then(response => {
         		console.log(response)
+        		vm.filesPack = response.data
         	})
         }
     }
@@ -116,7 +120,7 @@ export default{
 		</div>
 		
 		<div v-else>
-			<file-dropzone></file-dropzone> 
+			<file-dropzone :processo = 'processoID' :cliente = 'clienteID'></file-dropzone> 
 		</div>
 	</div>
 </template>

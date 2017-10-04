@@ -29,8 +29,9 @@ Route::get('/movimentacao',' MovimentacaoController@read')->name('movimentacao')
 
 // Route -> Pastas
 Route::get('/pastas', 'PastasController@read')->name('pastas');
-Route::put('/pastas/upload', 'PastasController@upload')->name('upload');
-Route::get('/pastas/search?{id}', 'PastasController@searchInDatabase');
+Route::put('/pastas/upload/{clienteID}/{processoID}', 'PastasController@upload')->name('upload');
+Route::get('/pastas/search/{id}', 'PastasController@searchInDatabase');
+Route::get('/pastas/search/', 'PastasController@searchInDatabaseAll');
 
 //Route -> Cliente
 Route::match(['get', 'post'], '/clientes', 'ClientesController@read')->name('clientes');
